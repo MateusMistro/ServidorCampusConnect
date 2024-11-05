@@ -22,8 +22,8 @@ public class Servidor {
 
         // Conectar ao MongoDB
         MongoClient mongoClient = MongoClients.create("mongodb+srv://proejtointegrador:123456qwerty@cluster0.zpeb5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
-        MongoDatabase database = mongoClient.getDatabase("Users");
-        MongoCollection<Document> collection = database.getCollection("User");
+        MongoDatabase database = mongoClient.getDatabase("campusconnect");
+        MongoCollection<Document> collection = database.getCollection("establishments");
 
         ArrayList<Parceiro> usuarios = new ArrayList<Parceiro>();
 

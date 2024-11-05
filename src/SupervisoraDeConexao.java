@@ -100,7 +100,34 @@ public class SupervisoraDeConexao extends Thread {
                             this.usuario.receba(new Resultado("Erro de login: email ou senha inválidos."));
                         }
 
-                    } else if (comunicado instanceof PedidoParaSair) {
+                    } else if (comunicado instanceof PedidoDeValidacaoDeEstabelecimento) {
+                        PedidoDeValidacaoDeEstabelecimento pedido = (PedidoDeValidacaoDeEstabelecimento) comunicado;
+
+                        List<String> errors = pedido.getValidationErrors();
+                        if (errors.isEmpty()) {
+                            // Dados válidos: inserir no MongoDB
+                            Document estabelecimento = new Document("cnpj", pedido.getCnpj())
+                                    .append("name", pedido.getName())
+                                    .append("photo", pedido.getPhoto())
+                                    .append("description", pedido.getDescription())
+                                    .append("openingHours", pedido.getOpeningHours());
+
+                            collection.insertOne(estabelecimento);
+                            logger.info("Estabelecimento inserido no MongoDB: " + estabelecimento.toJson());
+                            this.usuario.receba(new Resultado("Estabelecimento validado e inserido com sucesso!"));
+                        } else {
+                            // Dados inválidos: enviar mensagens de erro para o cliente
+                            StringBuilder errorMsg = new StringBuilder("Erro de validação nos seguintes campos:");
+                            for (String error : errors) {
+                                errorMsg.append("\n").append(error);
+                            }
+                            logger.warning(errorMsg.toString());
+                            this.usuario.receba(new Resultado(errorMsg.toString()));
+                        }
+                    }
+
+
+                    else if (comunicado instanceof PedidoParaSair) {
                         synchronized (this.usuarios) {
                             this.usuarios.remove(this.usuario);
                         }
