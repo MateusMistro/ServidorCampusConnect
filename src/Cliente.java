@@ -54,43 +54,32 @@ public class Cliente {
             return;
         }
 
-        // Coleta de dados do usuário
-        String nome = "";
-        String email = "";
-        String senha = "";
-        String opcao = "";
+        // Coleta de dados para validação do estabelecimento
+        String cnpj = "";
+        String name = "";
+        String photo = "";
+        String description = "";
+        String openingHours = "";
 
         try {
-            System.out.print("Escolha uma opção (1 - Registrar, 2 - Login): ");
-            opcao = Teclado.getUmString();
+            // Coleta dos dados do estabelecimento
+            System.out.print("Digite o CNPJ (formato XX.XXX.XXX/XXXX-XX): ");
+            cnpj = Teclado.getUmString();
 
-            if (opcao.equals("1")) {
-                // Registro de novos usuários
-                System.out.print("Digite seu nome: ");
-                nome = Teclado.getUmString();
+            System.out.print("Digite o nome: ");
+            name = Teclado.getUmString();
 
-                System.out.print("Digite seu email: ");
-                email = Teclado.getUmString();
+            System.out.print("Digite a URL da foto: ");
+            photo = Teclado.getUmString();
 
-                System.out.print("Digite sua senha: ");
-                senha = Teclado.getUmString();
+            System.out.print("Digite a descrição (até 100 caracteres): ");
+            description = Teclado.getUmString();
 
-                // Envia os dados do usuário para o servidor
-                servidor.receba(new PedidoDeRegistro(nome, email, senha));
-            } else if (opcao.equals("2")) {
-                // Login de usuários já registrados
-                System.out.print("Digite seu email: ");
-                email = Teclado.getUmString();
+            System.out.print("Digite o horário de funcionamento (formato HH:MM-HH:MM): ");
+            openingHours = Teclado.getUmString();
 
-                System.out.print("Digite sua senha: ");
-                senha = Teclado.getUmString();
-
-                // Envia os dados para o servidor verificar
-                servidor.receba(new PedidoDeLogin(email, senha));
-            } else {
-                System.out.println("Opção inválida.");
-                return;
-            }
+            // Envia o pedido de validação de estabelecimento para o servidor
+            servidor.receba(new PedidoDeValidacaoDeEstabelecimento(cnpj, name, photo, description, openingHours));
 
         } catch (IOException erro) {
             System.err.println("Erro de entrada de dados.\n");
@@ -99,11 +88,9 @@ public class Cliente {
             throw new RuntimeException(e);
         }
 
-
         // Recebe a resposta do servidor
         try {
             Comunicado respostaComunicado = servidor.envie();
-
 
             if (respostaComunicado instanceof Resultado) {
                 Resultado resultado = (Resultado) respostaComunicado;
