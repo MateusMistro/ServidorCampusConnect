@@ -58,7 +58,8 @@ public class Servidor {
                                 .append("name", estabelecimento.getName())
                                 .append("photo", estabelecimento.getPhoto())
                                 .append("description", estabelecimento.getDescription())
-                                .append("openingHours", estabelecimento.getOpeningHours());
+                                .append("openingHours", estabelecimento.getOpeningHours())
+                                .append("ownerId", estabelecimento.getOwnerId());
                         collection.insertOne(doc);
 
                         // Retorna mensagem de sucesso

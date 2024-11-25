@@ -31,8 +31,11 @@ public class Cliente {
             System.out.print("Horário de funcionamento (ex: 08:00-18:00): ");
             String openingHours = Teclado.getUmString();
 
+            System.out.print("Id do dono: ");
+            String ownerId = Teclado.getUmString();
+
             // Cria o objeto Estabelecimento utilizando o construtor
-            Estabelecimento estabelecimento = new Estabelecimento(cnpj, name, photo, description, openingHours);
+            Estabelecimento estabelecimento = new Estabelecimento(cnpj, name, photo, description, openingHours, ownerId);
             System.out.println("Estabelecimento criado: " + estabelecimento);
 
             // Envia o objeto para o servidor

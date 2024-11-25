@@ -15,13 +15,15 @@ public class Estabelecimento implements Serializable {
     private String photo;
     private String description;
     private String openingHours;
+    private String ownerId;
 
-    public Estabelecimento(String cnpj, String name,String photo, String description, String openingHours) {
+    public Estabelecimento(String cnpj, String name,String photo, String description, String openingHours, String ownerId) {
         this.cnpj = cnpj;
         this.name = name;
         this.photo = photo;
         this.description = description;
         this.openingHours = openingHours;
+        this.ownerId = ownerId;
     }
 
     public String getCnpj() {
@@ -42,6 +44,10 @@ public class Estabelecimento implements Serializable {
 
     public String getOpeningHours() {
         return openingHours;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
     }
 
     public boolean isCnpjValid() {
