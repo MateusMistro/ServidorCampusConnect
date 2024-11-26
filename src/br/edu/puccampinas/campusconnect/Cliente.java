@@ -35,11 +35,11 @@ public class Cliente {
             String ownerId = Teclado.getUmString();
 
             // Cria o objeto Estabelecimento utilizando o construtor
-            Estabelecimento estabelecimento = new Estabelecimento(cnpj, name, photo, description, openingHours, ownerId);
-            System.out.println("Estabelecimento criado: " + estabelecimento);
+            Establishment establishment = new Establishment(cnpj, name, photo, description, openingHours, ownerId);
+            System.out.println("Estabelecimento criado: " + establishment);
 
             // Envia o objeto para o servidor
-            outputStream.writeObject(estabelecimento);
+            outputStream.writeObject(establishment);
             outputStream.flush();
             System.out.println("Estabelecimento enviado!");
 

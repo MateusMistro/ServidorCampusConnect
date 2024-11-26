@@ -7,9 +7,10 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Estabelecimento implements Serializable {
+public class Establishment implements Serializable {
     private static final long serialVersionUID = 2511790574004449845L;
 
+    private String id;
     private String cnpj;
     private String name;
     private String photo;
@@ -17,7 +18,7 @@ public class Estabelecimento implements Serializable {
     private String openingHours;
     private String ownerId;
 
-    public Estabelecimento(String cnpj, String name,String photo, String description, String openingHours, String ownerId) {
+    public Establishment(String cnpj, String name, String photo, String description, String openingHours, String ownerId) {
         this.cnpj = cnpj;
         this.name = name;
         this.photo = photo;
@@ -25,6 +26,8 @@ public class Estabelecimento implements Serializable {
         this.openingHours = openingHours;
         this.ownerId = ownerId;
     }
+
+    public String getId(){ return this.id;}
 
     public String getCnpj() {
         return this.cnpj;
@@ -154,5 +157,48 @@ public class Estabelecimento implements Serializable {
                 ", description='" + description + '\'' +
                 ", openingHours='" + openingHours + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj == null)
+            return false;
+        if(obj == this)
+            return true;
+        if(obj.getClass() != this.getClass())
+            return false;
+
+        Establishment e = (Establishment) obj;
+
+        if(e.id != this.id)
+            return false;
+        if(e.name != this.name)
+            return false;
+        if(e.description != this.description)
+            return false;
+        if(e.openingHours != this.openingHours)
+            return false;
+        if(e.photo != this.photo)
+            return false;
+        if(e.ownerId != this.ownerId)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode(){
+        int ret = 1;
+        ret = ret * 11 + id.hashCode();
+        ret = ret * 11 + name.hashCode();
+        ret = ret * 11 + description.hashCode();
+        ret = ret * 11 + openingHours.hashCode();
+        ret = ret * 11 + photo.hashCode();
+        ret = ret * 11 + ownerId.hashCode();
+
+        if(ret < 0)
+            ret = -ret;
+
+        return ret;
     }
 }

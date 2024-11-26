@@ -42,24 +42,24 @@ public class Servidor {
         ) {
             // Lê o objeto enviado pelo cliente
             Object obj = inputStream.readObject();
-            if (obj instanceof Estabelecimento) {
-                Estabelecimento estabelecimento = (Estabelecimento) obj;
-                System.out.println("Recebido do cliente: " + estabelecimento);
+            if (obj instanceof Establishment) {
+                Establishment establishment = (Establishment) obj;
+                System.out.println("Recebido do cliente: " + establishment);
 
                 // Valida o estabelecimento
-                if (estabelecimento.isValid()) {
+                if (establishment.isValid()) {
                     // Conecta ao MongoDB
                     try (MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb+srv://proejtointegrador:123456qwerty@cluster0.zpeb5.mongodb.net/campusconnect?retryWrites=true&w=majority&appName=Cluster0"))) {
                         MongoDatabase database = mongoClient.getDatabase("campusconnect");
                         MongoCollection<Document> collection = database.getCollection("establishments");
 
                         // Cria um documento e insere no MongoDB
-                        Document doc = new Document("cnpj", estabelecimento.getCnpj())
-                                .append("name", estabelecimento.getName())
-                                .append("photo", estabelecimento.getPhoto())
-                                .append("description", estabelecimento.getDescription())
-                                .append("openingHours", estabelecimento.getOpeningHours())
-                                .append("ownerId", estabelecimento.getOwnerId());
+                        Document doc = new Document("cnpj", establishment.getCnpj())
+                                .append("name", establishment.getName())
+                                .append("photo", establishment.getPhoto())
+                                .append("description", establishment.getDescription())
+                                .append("openingHours", establishment.getOpeningHours())
+                                .append("ownerId", establishment.getOwnerId());
                         collection.insertOne(doc);
 
                         // Retorna mensagem de sucesso
@@ -68,7 +68,7 @@ public class Servidor {
                     }
                 } else {
                     // Caso não seja válido, envia as mensagens de erro
-                    List<String> erros = estabelecimento.getValidationErrors();
+                    List<String> erros = establishment.getValidationErrors();
                     Resultado resultado = new Resultado("Não válido", erros);
                     outputStream.writeObject(resultado);
                 }
